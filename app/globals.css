@@ -1,0 +1,14 @@
+@import '../styles/theme.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: white;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease;
+}

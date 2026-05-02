@@ -1,94 +1,44 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Globe from '../components/Globe'
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter()
-
-  const [id, setId] = useState('')
-  const [pass, setPass] = useState('')
-  const [role, setRole] = useState('Student')
-  const [captcha, setCaptcha] = useState('')
-  const [error, setError] = useState('')
-
-  const handleLogin = () => {
-    // CAPTCHA check
-    if (captcha !== '8') {
-      setError('Captcha wrong ❌')
-      return
-    }
-
-    // Student login
-    if (role === 'Student' && id === 'test123' && pass === 'student123#') {
-      router.push('/student')
-    }
-    // Teacher login
-    else if (role === 'Teacher' && id === 'test123' && pass === 'teacher123#') {
-      router.push('/teacher')
-    }
-    // Invalid
-    else {
-      setError('Invalid credentials ❌')
-    }
-  }
-
   return (
-    <div style={{
-      display: 'flex',
-      height: '100vh',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '40px'
-    }}>
-      
-      {/* Globe Animation */}
-      <Globe />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-blue-900 to-black text-white">
 
-      {/* Login Card */}
-      <div className="glass" style={{ padding: 25, width: 320 }}>
-        <h2 style={{ textAlign: 'center' }}>DoubtX AI</h2>
+      <div className="text-center backdrop-blur-lg bg-white/10 p-10 rounded-2xl shadow-xl max-w-xl w-full">
 
-        <input
-          className="input"
-          placeholder="User ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        />
+        {/* TITLE */}
+        <h1 className="text-5xl font-bold mb-4">
+          🤖 DoubtX AI
+        </h1>
 
-        <input
-          className="input"
-          type="password"
-          placeholder="Password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
-        />
+        {/* SUBTITLE */}
+        <p className="text-gray-300 mb-8">
+          Your AI-powered learning assistant. Ask doubts, get instant answers, and learn smarter.
+        </p>
 
-        <select
-          className="input"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option>Student</option>
-          <option>Teacher</option>
-        </select>
+        {/* BUTTONS */}
+        <div className="flex justify-center gap-4">
+          <Link href="/student">
+            <button className="px-6 py-3 bg-blue-600 rounded-xl hover:bg-blue-700 transition shadow-md">
+              🎓 Student Panel
+            </button>
+          </Link>
 
-        <p style={{ marginTop: '10px' }}>3 + 5 = ?</p>
+          <Link href="/teacher">
+            <button className="px-6 py-3 bg-green-600 rounded-xl hover:bg-green-700 transition shadow-md">
+              👩‍🏫 Teacher Panel
+            </button>
+          </Link>
+        </div>
 
-        <input
-          className="input"
-          placeholder="Enter answer"
-          value={captcha}
-          onChange={(e) => setCaptcha(e.target.value)}
-        />
-
-        <button className="btn" style={{ width: '100%', marginTop: '10px' }} onClick={handleLogin}>
-          Login
-        </button>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {/* FOOTER */}
+        <p className="mt-8 text-sm text-gray-400">
+          Made with ❤️ by You
+        </p>
       </div>
+
     </div>
-  )
+  );
 }

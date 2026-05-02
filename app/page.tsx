@@ -1,44 +1,45 @@
-"use client";
-
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-blue-900 to-black text-white">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #0f172a, #020617)",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        padding: "20px",
+      }}
+    >
+      <h1 style={{ fontSize: "48px", fontWeight: "bold" }}>
+        🚀 DoubtX AI
+      </h1>
 
-      <div className="text-center backdrop-blur-lg bg-white/10 p-10 rounded-2xl shadow-xl max-w-xl w-full">
+      <p style={{ marginTop: "10px", opacity: 0.7 }}>
+        Your smart AI assistant for solving doubts instantly
+      </p>
 
-        {/* TITLE */}
-        <h1 className="text-5xl font-bold mb-4">
-          🤖 DoubtX AI
-        </h1>
-
-        {/* SUBTITLE */}
-        <p className="text-gray-300 mb-8">
-          Your AI-powered learning assistant. Ask doubts, get instant answers, and learn smarter.
-        </p>
-
-        {/* BUTTONS */}
-        <div className="flex justify-center gap-4">
-          <Link href="/student">
-            <button className="px-6 py-3 bg-blue-600 rounded-xl hover:bg-blue-700 transition shadow-md">
-              🎓 Student Panel
-            </button>
-          </Link>
-
-          <Link href="/teacher">
-            <button className="px-6 py-3 bg-green-600 rounded-xl hover:bg-green-700 transition shadow-md">
-              👩‍🏫 Teacher Panel
-            </button>
-          </Link>
-        </div>
-
-        {/* FOOTER */}
-        <p className="mt-8 text-sm text-gray-400">
-          Made with ❤️ by You
-        </p>
+      <div style={{ marginTop: "30px" }}>
+        <Link href="/student">
+          <button
+            style={{
+              padding: "12px 24px",
+              fontSize: "18px",
+              borderRadius: "10px",
+              border: "none",
+              background: "#3b82f6",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Start Learning →
+          </button>
+        </Link>
       </div>
-
     </div>
   );
 }

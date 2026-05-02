@@ -13,11 +13,21 @@ const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444"];
 
 export default function TeacherPage() {
   const [chats, setChats] = useState<any[]>([]);
+  const [reply, setReply] = useState("");
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("chats") || "[]");
     setChats(data);
   }, []);
+
+  const saveReply = (index: number) => {
+    const updated = [...chats];
+    updated[index].answer = reply;
+
+    setChats(updated);
+    localStorage.setItem("chats", JSON.stringify(updated));
+    setReply("");
+  };
 
   const getChartData = () => {
     const count: any = {};
@@ -35,9 +45,9 @@ export default function TeacherPage() {
     <div style={container}>
       <h1>👨‍🏫 Teacher Dashboard</h1>
 
-      {/* PIE CHART */}
+      {/* PIE */}
       <div style={box}>
-        <h3>📊 Student Doubts Distribution</h3>
+        <h3>📊 Doubt Distribution</h3>
         <div style={{ width: "100%", height: 250 }}>
           <ResponsiveContainer>
             <PieChart>
@@ -52,12 +62,28 @@ export default function TeacherPage() {
         </div>
       </div>
 
-      {/* CHAT LIST */}
+      {/* DOUBTS */}
       {chats.map((chat, i) => (
         <div key={i} style={card}>
-          <p><b>Question:</b> {chat.question}</p>
+          <p><b>Q:</b> {chat.question}</p>
           <p><b>Subject:</b> {chat.subject}</p>
-          <p><b>Time:</b> {chat.time}</p>
+
+          {chat.answer ? (
+            <p style={{ color: "#22c55e" }}>
+              <b>Answer:</b> {chat.answer}
+            </p>
+          ) : (
+            <>
+              <input
+                placeholder="Write answer..."
+                onChange={(e) => setReply(e.target.value)}
+                style={input}
+              />
+              <button onClick={() => saveReply(i)} style={btn}>
+                Reply
+              </button>
+            </>
+          )}
         </div>
       ))}
     </div>
@@ -82,4 +108,17 @@ const card = {
   marginTop: "10px",
   padding: "10px",
   border: "1px solid gray",
+};
+
+const input = {
+  padding: "8px",
+  marginRight: "10px",
+};
+
+const btn = {
+  padding: "8px 15px",
+  background: "#22c55e",
+  border: "none",
+  color: "white",
+  cursor: "pointer",
 };

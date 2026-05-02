@@ -13,6 +13,7 @@ const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444"];
 
 export default function StudentPage() {
   const [question, setQuestion] = useState("");
+  const [subject, setSubject] = useState("Math");
   const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
@@ -25,7 +26,8 @@ export default function StudentPage() {
 
     const newChat = {
       question,
-      subject: detectSubject(question),
+      subject,
+      answer: "",
       time: new Date().toLocaleString(),
     };
 
@@ -36,16 +38,6 @@ export default function StudentPage() {
     setQuestion("");
   };
 
-  // 🧠 Simple subject detection
-  const detectSubject = (q: string) => {
-    q = q.toLowerCase();
-    if (q.includes("math")) return "Math";
-    if (q.includes("science")) return "Science";
-    if (q.includes("english")) return "English";
-    return "Other";
-  };
-
-  // 📊 Create chart data
   const getChartData = () => {
     const count: any = {};
     history.forEach((c) => {
@@ -70,14 +62,26 @@ export default function StudentPage() {
           placeholder="Ask your doubt..."
           style={input}
         />
+
+        <select
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          style={select}
+        >
+          <option>Math</option>
+          <option>Science</option>
+          <option>English</option>
+          <option>Other</option>
+        </select>
+
         <button onClick={saveChat} style={btn}>
-          Save Question
+          Submit
         </button>
       </div>
 
       {/* GRID */}
       <div style={grid}>
-        {/* PIE CHART */}
+        {/* PIE */}
         <div style={box}>
           <h3>📊 Your Study Distribution</h3>
           <div style={{ width: "100%", height: 250 }}>
@@ -96,7 +100,7 @@ export default function StudentPage() {
 
         {/* CHATBOT */}
         <div style={box}>
-          <h3>💬 Ask Doubt</h3>
+          <h3>💬 AI Chat</h3>
           <iframe
             src="https://www.chatbase.co/chatbot-iframe/ldbVwvwwC0Ekqiaw04uSB"
             width="100%"
@@ -107,13 +111,21 @@ export default function StudentPage() {
       </div>
 
       {/* HISTORY */}
-      <h2 style={{ marginTop: "20px" }}>📜 Your Questions</h2>
+      <h2 style={{ marginTop: "20px" }}>📜 Your Doubts</h2>
 
       {history.map((chat, i) => (
         <div key={i} style={card}>
           <p><b>Q:</b> {chat.question}</p>
           <p><b>Subject:</b> {chat.subject}</p>
           <p><b>Time:</b> {chat.time}</p>
+
+          {chat.answer ? (
+            <p style={{ color: "#22c55e" }}>
+              <b>Teacher:</b> {chat.answer}
+            </p>
+          ) : (
+            <p style={{ opacity: 0.6 }}>Waiting for teacher reply...</p>
+          )}
         </div>
       ))}
     </div>
@@ -129,7 +141,12 @@ const container = {
 
 const input = {
   padding: "10px",
-  width: "60%",
+  width: "40%",
+  marginRight: "10px",
+};
+
+const select = {
+  padding: "10px",
   marginRight: "10px",
 };
 

@@ -15,21 +15,17 @@ export default function Login() {
       if (id === "teacher123" && pass === "teacher") {
         localStorage.setItem("user", "teacher");
         router.push("/teacher");
-      } else {
-        alert("Wrong Teacher Credentials");
-      }
+      } else alert("Wrong teacher credentials");
     } else {
       if (id === "student123" && pass === "student") {
         localStorage.setItem("user", "student");
         router.push("/student");
-      } else {
-        alert("Wrong Student Credentials");
-      }
+      } else alert("Wrong student credentials");
     }
   };
 
   return (
-    <div className="login">
+    <div className="home">
       <h1 className="fade">🔐 Login</h1>
 
       <select onChange={(e) => setRole(e.target.value)} className="input">
@@ -37,22 +33,10 @@ export default function Login() {
         <option value="teacher">Teacher</option>
       </select>
 
-      <input
-        placeholder="ID"
-        className="input"
-        onChange={(e) => setId(e.target.value)}
-      />
+      <input className="input" placeholder="ID" onChange={(e) => setId(e.target.value)} />
+      <input className="input" type="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
 
-      <input
-        type="password"
-        placeholder="Password"
-        className="input"
-        onChange={(e) => setPass(e.target.value)}
-      />
-
-      <button className="btn blue glow" onClick={login}>
-        Login 🚀
-      </button>
+      <button className="btn blue glow" onClick={login}>Login 🚀</button>
     </div>
   );
 }

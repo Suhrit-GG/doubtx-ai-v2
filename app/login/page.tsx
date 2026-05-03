@@ -16,8 +16,8 @@ export default function LoginPage() {
       localStorage.setItem("user", "student");
       router.push("/student");
     } else {
-      // teacher login
-      if (inputCaptcha != captcha) {
+      // ✅ FIXED HERE
+      if (Number(inputCaptcha) !== captcha) {
         alert("Wrong captcha!");
         return;
       }

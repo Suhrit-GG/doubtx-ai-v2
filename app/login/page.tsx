@@ -7,12 +7,8 @@ export default function LoginPage() {
   const router = useRouter();
 
   const [role, setRole] = useState<"student" | "teacher">("student");
-  const [captcha] = useState<number>(
-    Math.floor(Math.random() * 9000 + 1000)
-  );
-  const [inputCaptcha, setInputCaptcha] = useState<string>("");
-  const [teacherId, setTeacherId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [teacherId, setTeacherId] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     if (role === "student") {
@@ -21,12 +17,7 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ SAFE TYPE CHECK
-    if (Number(inputCaptcha) !== captcha) {
-      alert("Wrong captcha!");
-      return;
-    }
-
+    // ✅ Teacher login (simple)
     if (teacherId === "teacher" && password === "1234") {
       localStorage.setItem("user", "teacher");
       router.push("/teacher");
@@ -60,14 +51,6 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <p>Captcha: {captcha}</p>
-
-          <input
-            placeholder="Enter Captcha"
-            value={inputCaptcha}
-            onChange={(e) => setInputCaptcha(e.target.value)}
           />
         </>
       )}

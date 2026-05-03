@@ -1,45 +1,29 @@
 import Link from "next/link";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div style={container}>
-      <h1 style={title}>🚀 DoubtX AI</h1>
-      <p style={subtitle}>
-        Smart AI learning platform for students
-      </p>
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <h1>🤖 DoubtX AI</h1>
 
-      <div style={{ marginTop: "30px" }}>
+      <div style={{ marginTop: 20 }}>
         <Link href="/student">
-          <button style={btn}>👨‍🎓 Student</button>
+          <button className="button">Student Panel</button>
         </Link>
 
         <Link href="/teacher">
-          <button style={btn}>👨‍🏫 Teacher</button>
+          <button className="button" style={{ marginLeft: 10 }}>
+            Teacher Panel
+          </button>
         </Link>
       </div>
     </div>
   );
 }
-
-const container = {
-  minHeight: "100vh",
-  background: "linear-gradient(135deg, #0f172a, #020617)",
-  color: "white",
-  display: "flex",
-  flexDirection: "column" as const,
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const title = { fontSize: "48px", fontWeight: "bold" };
-const subtitle = { opacity: 0.7 };
-
-const btn = {
-  padding: "12px 20px",
-  margin: "10px",
-  borderRadius: "10px",
-  border: "none",
-  background: "#3b82f6",
-  color: "white",
-  cursor: "pointer",
-};

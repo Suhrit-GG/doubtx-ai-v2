@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function StudentPage() {
+export default function Student() {
+  const router = useRouter();
   const [msg, setMsg] = useState("");
   const [chat, setChat] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("user") !== "student") {
+      router.push("/login");
+    }
+  }, []);
 
   const send = () => {
     if (!msg) return;
@@ -14,30 +22,22 @@ export default function StudentPage() {
     setTimeout(() => {
       setChat((prev) => [
         ...prev,
-        { role: "ai", text: "AI response here..." },
+        { role: "ai", text: "AI Response..." },
       ]);
-    }, 500);
+    }, 600);
 
     setMsg("");
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>🎓 Student Dashboard</h1>
+    <div className="page">
+      <h1 className="fade">🎓 Student Dashboard</h1>
 
-      <div
-        className="card"
-        style={{
-          height: "60vh",
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "auto",
-        }}
-      >
+      <div className="chatbox">
         {chat.map((c, i) => (
           <div
             key={i}
-            className={c.role === "user" ? "chat-user" : "chat-ai"}
+            className={c.role === "user" ? "msg user" : "msg ai"}
           >
             {c.text}
           </div>
@@ -48,10 +48,10 @@ export default function StudentPage() {
         className="input"
         value={msg}
         onChange={(e) => setMsg(e.target.value)}
-        placeholder="Ask doubt..."
+        placeholder="Ask your doubt..."
       />
 
-      <button className="button" onClick={send}>
+      <button className="btn blue glow" onClick={send}>
         Send 🚀
       </button>
     </div>

@@ -3,66 +3,56 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function Login() {
   const router = useRouter();
 
-  const [role, setRole] = useState<"student" | "teacher">("student");
-  const [teacherId, setTeacherId] = useState("");
-  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
+  const [id, setId] = useState("");
+  const [pass, setPass] = useState("");
 
-  const handleLogin = () => {
-    if (role === "student") {
-      localStorage.setItem("user", "student");
-      router.push("/student");
-      return;
-    }
-
-    // ✅ Teacher login (simple)
-    if (teacherId === "teacher" && password === "1234") {
-      localStorage.setItem("user", "teacher");
-      router.push("/teacher");
+  const login = () => {
+    if (role === "teacher") {
+      if (id === "teacher123" && pass === "teacher") {
+        localStorage.setItem("user", "teacher");
+        router.push("/teacher");
+      } else {
+        alert("Wrong Teacher Credentials");
+      }
     } else {
-      alert("Wrong ID or Password");
+      if (id === "student123" && pass === "student") {
+        localStorage.setItem("user", "student");
+        router.push("/student");
+      } else {
+        alert("Wrong Student Credentials");
+      }
     }
   };
 
   return (
-    <div style={container}>
-      <h1>🔐 Login</h1>
+    <div className="login">
+      <h1 className="fade">🔐 Login</h1>
 
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value as "student" | "teacher")}
-      >
+      <select onChange={(e) => setRole(e.target.value)} className="input">
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
       </select>
 
-      {role === "teacher" && (
-        <>
-          <input
-            placeholder="Teacher ID"
-            value={teacherId}
-            onChange={(e) => setTeacherId(e.target.value)}
-          />
+      <input
+        placeholder="ID"
+        className="input"
+        onChange={(e) => setId(e.target.value)}
+      />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </>
-      )}
+      <input
+        type="password"
+        placeholder="Password"
+        className="input"
+        onChange={(e) => setPass(e.target.value)}
+      />
 
-      <button onClick={handleLogin}>Login</button>
+      <button className="btn blue glow" onClick={login}>
+        Login 🚀
+      </button>
     </div>
   );
 }
-
-const container = {
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "10px",
-  padding: "40px",
-};

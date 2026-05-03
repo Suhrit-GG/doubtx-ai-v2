@@ -4,33 +4,34 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [role, setRole] = useState("student");
-  const [captcha, setCaptcha] = useState(
+  const router = useRouter();
+
+  const [role, setRole] = useState<"student" | "teacher">("student");
+  const [captcha] = useState<number>(
     Math.floor(Math.random() * 9000 + 1000)
   );
-  const [inputCaptcha, setInputCaptcha] = useState("");
-  const router = useRouter();
+  const [inputCaptcha, setInputCaptcha] = useState<string>("");
+  const [teacherId, setTeacherId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleLogin = () => {
     if (role === "student") {
       localStorage.setItem("user", "student");
       router.push("/student");
+      return;
+    }
+
+    // ✅ SAFE TYPE CHECK
+    if (Number(inputCaptcha) !== captcha) {
+      alert("Wrong captcha!");
+      return;
+    }
+
+    if (teacherId === "teacher" && password === "1234") {
+      localStorage.setItem("user", "teacher");
+      router.push("/teacher");
     } else {
-      // ✅ FIXED HERE
-      if (Number(inputCaptcha) !== captcha) {
-        alert("Wrong captcha!");
-        return;
-      }
-
-      const id = (document.getElementById("id") as HTMLInputElement).value;
-      const pass = (document.getElementById("pass") as HTMLInputElement).value;
-
-      if (id === "teacher" && pass === "1234") {
-        localStorage.setItem("user", "teacher");
-        router.push("/teacher");
-      } else {
-        alert("Wrong ID or Password");
-      }
+      alert("Wrong ID or Password");
     }
   };
 
@@ -38,19 +39,34 @@ export default function LoginPage() {
     <div style={container}>
       <h1>🔐 Login</h1>
 
-      <select onChange={(e) => setRole(e.target.value)}>
+      <select
+        value={role}
+        onChange={(e) => setRole(e.target.value as "student" | "teacher")}
+      >
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
       </select>
 
       {role === "teacher" && (
         <>
-          <input id="id" placeholder="Teacher ID" />
-          <input id="pass" type="password" placeholder="Password" />
+          <input
+            placeholder="Teacher ID"
+            value={teacherId}
+            onChange={(e) => setTeacherId(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <p>Captcha: {captcha}</p>
+
           <input
             placeholder="Enter Captcha"
+            value={inputCaptcha}
             onChange={(e) => setInputCaptcha(e.target.value)}
           />
         </>

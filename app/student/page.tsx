@@ -1,34 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 export default function StudentPage() {
   const [subject, setSubject] = useState("Math");
   const [doubt, setDoubt] = useState("");
-
-  // Fake data (updates when you ask)
-  const [data, setData] = useState([
-    { name: "Math", value: 2 },
-    { name: "Science", value: 1 },
-    { name: "English", value: 1 },
-  ]);
+  const [doubts, setDoubts] = useState<any[]>([]);
 
   const COLORS = ["#3b82f6", "#22c55e", "#f59e0b"];
+
+  useEffect(() => {
+    loadDoubts();
+  }, []);
+
+  const loadDoubts = () => {
+    const stored = JSON.parse(localStorage.getItem("doubts") || "[]");
+    setDoubts(stored);
+  };
 
   const askDoubt = () => {
     if (!doubt) return;
 
-    // update pie chart
-    const updated = data.map((item) =>
-      item.name === subject
-        ? { ...item, value: item.value + 1 }
-        : item
-    );
+    const newDoubt = {
+      id: Date.now(),
+      subject,
+      question: doubt,
+      reply: "",
+    };
 
-    setData(updated);
+    const updated = [...doubts, newDoubt];
+    localStorage.setItem("doubts", JSON.stringify(updated));
+    setDoubts(updated);
     setDoubt("");
   };
+
+  // PIE DATA
+  const subjects = ["Math", "Science", "English"];
+  const data = subjects.map((s) => ({
+    name: s,
+    value: doubts.filter((d) => d.subject === s).length,
+  }));
 
   return (
     <div className="container">
@@ -38,8 +50,8 @@ export default function StudentPage() {
         
         {/* LEFT SIDE */}
         <div className="left">
-          
-          {/* SUBJECT + DOUBT */}
+
+          {/* ASK DOUBT */}
           <div className="card">
             <h2>📘 Ask Doubt</h2>
 
@@ -77,6 +89,22 @@ export default function StudentPage() {
               <Tooltip />
             </PieChart>
           </div>
+
+          {/* TEACHER REPLIES */}
+          <div className="card">
+            <h2>📩 Teacher Replies</h2>
+
+            {doubts.map((d) => (
+              <div key={d.id} className="reply">
+                <b>{d.subject}:</b> {d.question}
+                <br />
+                <span className="teacherText">
+                  {d.reply || "Waiting for teacher..."}
+                </span>
+              </div>
+            ))}
+          </div>
+
         </div>
 
         {/* RIGHT SIDE (CHATBASE) */}
@@ -85,25 +113,18 @@ export default function StudentPage() {
             src="https://www.chatbase.co/chatbot-iframe/ldbVwvwwC0Ekqiaw04uSB"
             width="100%"
             height="100%"
-            style={{ border: "none", borderRadius: "12px" }}
+            style={{ border: "none" }}
           />
         </div>
 
       </div>
 
-      {/* STYLES */}
       <style>{`
         .container {
           min-height: 100vh;
           background: linear-gradient(135deg, #0f172a, #020617);
           color: white;
           padding: 20px;
-          animation: fade 1s ease;
-        }
-
-        .title {
-          font-size: 28px;
-          margin-bottom: 20px;
         }
 
         .layout {
@@ -121,17 +142,15 @@ export default function StudentPage() {
         .right {
           flex: 1;
           height: 80vh;
-          box-shadow: 0 0 40px rgba(0,0,0,0.6);
           border-radius: 12px;
           overflow: hidden;
+          box-shadow: 0 0 40px rgba(0,0,0,0.6);
         }
 
         .card {
           background: rgba(255,255,255,0.05);
           padding: 15px;
           border-radius: 12px;
-          backdrop-filter: blur(10px);
-          animation: pop 0.5s ease;
         }
 
         .input {
@@ -149,22 +168,18 @@ export default function StudentPage() {
           border-radius: 8px;
           color: white;
           cursor: pointer;
-          transition: 0.3s;
         }
 
         .btn:hover {
           transform: scale(1.05);
-          box-shadow: 0 0 10px #2563eb;
         }
 
-        @keyframes fade {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        .reply {
+          margin-bottom: 10px;
         }
 
-        @keyframes pop {
-          from { transform: scale(0.9); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
+        .teacherText {
+          color: #22c55e;
         }
       `}</style>
     </div>

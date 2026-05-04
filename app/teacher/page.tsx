@@ -1,41 +1,57 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { PieChart, Pie, Cell } from "recharts";
+import { useEffect, useState } from "react";
 
-export default function Teacher() {
-  const router = useRouter();
+export default function TeacherPage() {
+  const [doubts, setDoubts] = useState<any[]>([]);
 
   useEffect(() => {
-    if (localStorage.getItem("user") !== "teacher") {
-      router.push("/login");
-    }
+    load();
   }, []);
 
-  const data = [
-    { name: "Math", value: 40 },
-    { name: "Science", value: 30 },
-    { name: "English", value: 20 },
-  ];
+  const load = () => {
+    const stored = JSON.parse(localStorage.getItem("doubts") || "[]");
+    setDoubts(stored);
+  };
 
-  const colors = ["#3b82f6", "#22c55e", "#f59e0b"];
+  const reply = (id: number, text: string) => {
+    const updated = doubts.map((d) =>
+      d.id === id ? { ...d, reply: text } : d
+    );
+
+    setDoubts(updated);
+    localStorage.setItem("doubts", JSON.stringify(updated));
+  };
 
   return (
-    <div className="page">
-      <h1 className="fade">👨‍🏫 Teacher Dashboard</h1>
+    <div style={{ padding: "20px", color: "white" }}>
+      <h1>👨‍🏫 Teacher Dashboard</h1>
 
-      <div className="card">
-        <h2>📊 Doubts Overview</h2>
+      {doubts.map((d) => (
+        <div
+          key={d.id}
+          style={{
+            background: "#1e293b",
+            padding: "10px",
+            margin: "10px 0",
+            borderRadius: "10px",
+          }}
+        >
+          <p><b>{d.subject}</b>: {d.question}</p>
 
-        <PieChart width={250} height={250}>
-          <Pie data={data} dataKey="value" outerRadius={80}>
-            {data.map((_, i) => (
-              <Cell key={i} fill={colors[i]} />
-            ))}
-          </Pie>
-        </PieChart>
-      </div>
+          <input
+            placeholder="Write reply..."
+            defaultValue={d.reply}
+            onBlur={(e) => reply(d.id, e.target.value)}
+            style={{
+              width: "100%",
+              padding: "8px",
+              borderRadius: "6px",
+              border: "none",
+            }}
+          />
+        </div>
+      ))}
     </div>
   );
 }

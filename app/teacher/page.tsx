@@ -52,9 +52,7 @@ export default function TeacherPage() {
 
           <div className="insight">
             <h3>📌 Insight</h3>
-            <p>
-              Most doubts are in <b>{weak.name}</b>
-            </p>
+            <p>Most doubts are in <b>{weak.name}</b></p>
             <p>👉 Focus more on this subject</p>
           </div>
         </div>
@@ -79,8 +77,6 @@ export default function TeacherPage() {
       <style>{`
         .container {
           min-height: 100vh;
-          background: linear-gradient(135deg, #020617, #1e3a8a);
-          color: white;
           padding: 20px;
         }
 

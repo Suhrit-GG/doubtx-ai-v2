@@ -10,28 +10,38 @@ export default function StudentPage() {
 
   const COLORS = ["#3b82f6", "#22c55e", "#f59e0b"];
 
-  // Load doubts
   useEffect(() => {
-    loadDoubts();
-  }, []);
-
-  const loadDoubts = () => {
     const stored = JSON.parse(localStorage.getItem("doubts") || "[]");
     setDoubts(stored);
-  };
+  }, []);
 
-  // Cursor glow effect
+  // Smooth glow
   useEffect(() => {
     const glow = document.getElementById("cursor-glow");
 
+    let x = 0, y = 0;
+    let tx = 0, ty = 0;
+
     const move = (e: MouseEvent) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    };
+
+    const animate = () => {
+      x += (tx - x) * 0.1;
+      y += (ty - y) * 0.1;
+
       if (glow) {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
+        glow.style.left = x + "px";
+        glow.style.top = y + "px";
       }
+
+      requestAnimationFrame(animate);
     };
 
     window.addEventListener("mousemove", move);
+    animate();
+
     return () => window.removeEventListener("mousemove", move);
   }, []);
 
@@ -51,8 +61,8 @@ export default function StudentPage() {
     setDoubt("");
   };
 
-  // Pie chart data
   const subjects = ["Math", "Science", "English"];
+
   const data = subjects.map((s) => ({
     name: s,
     value: doubts.filter((d) => d.subject === s).length,
@@ -60,7 +70,6 @@ export default function StudentPage() {
 
   return (
     <div className="container">
-      {/* Cursor Glow */}
       <div id="cursor-glow"></div>
 
       <h1 className="title">🎓 DoubtX AI</h1>
@@ -71,10 +80,7 @@ export default function StudentPage() {
           <div className="card">
             <h2>📘 Ask Doubt</h2>
 
-            <select
-              className="input"
-              onChange={(e) => setSubject(e.target.value)}
-            >
+            <select onChange={(e) => setSubject(e.target.value)} className="input">
               <option>Math</option>
               <option>Science</option>
               <option>English</option>
@@ -134,28 +140,12 @@ export default function StudentPage() {
       <style>{`
         .container {
           min-height: 100vh;
-          background: radial-gradient(circle at top, #1e3a8a, #020617);
-          color: white;
           padding: 20px;
-          position: relative;
-        }
-
-        #cursor-glow {
-          position: fixed;
-          width: 200px;
-          height: 200px;
-          background: radial-gradient(circle, rgba(59,130,246,0.4), transparent);
-          pointer-events: none;
-          transform: translate(-50%, -50%);
-          filter: blur(40px);
-          z-index: 1;
         }
 
         .layout {
           display: flex;
           gap: 20px;
-          position: relative;
-          z-index: 2;
         }
 
         .left {
@@ -170,7 +160,7 @@ export default function StudentPage() {
           height: 80vh;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 0 50px rgba(0,0,0,0.6);
+          box-shadow: 0 0 40px rgba(0,0,0,0.6);
         }
 
         .card {
@@ -178,11 +168,6 @@ export default function StudentPage() {
           padding: 15px;
           border-radius: 16px;
           backdrop-filter: blur(10px);
-          transition: 0.3s;
-        }
-
-        .card:hover {
-          transform: scale(1.02);
         }
 
         .input {
@@ -200,10 +185,6 @@ export default function StudentPage() {
           border-radius: 10px;
           color: white;
           cursor: pointer;
-        }
-
-        .reply {
-          margin-bottom: 10px;
         }
 
         .teacherText {

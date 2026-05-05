@@ -21,7 +21,6 @@ export default function TeacherPage() {
   };
 
   const subjects = ["Math", "Science", "English"];
-
   const data = subjects.map((s) => ({
     name: s,
     value: doubts.filter((d) => d.subject === s).length,
@@ -29,9 +28,7 @@ export default function TeacherPage() {
 
   const COLORS = ["#3b82f6", "#22c55e", "#f59e0b"];
 
-  const weak = data.reduce((max, curr) =>
-    curr.value > max.value ? curr : max
-  , data[0]);
+  const weak = data.reduce((a, b) => (b.value > a.value ? b : a));
 
   return (
     <div className="container">
@@ -39,7 +36,7 @@ export default function TeacherPage() {
 
       <div className="layout">
         <div className="card">
-          <h2>📊 Doubt Distribution</h2>
+          <h2>📊 Insights</h2>
 
           <PieChart width={250} height={250}>
             <Pie data={data} dataKey="value" outerRadius={80}>
@@ -50,20 +47,14 @@ export default function TeacherPage() {
             <Tooltip />
           </PieChart>
 
-          <div className="insight">
-            <h3>📌 Insight</h3>
-            <p>
-              Most doubts are in <b>{weak.name}</b>
-            </p>
-            <p>👉 Focus more on this subject</p>
-          </div>
+          <p>Focus on: <b>{weak.name}</b></p>
         </div>
 
         <div className="card">
-          <h2>📩 Student Doubts</h2>
+          <h2>Doubts</h2>
 
           {doubts.map((d) => (
-            <div key={d.id} className="doubt">
+            <div key={d.id}>
               <p><b>{d.subject}</b>: {d.question}</p>
 
               <input
@@ -77,13 +68,6 @@ export default function TeacherPage() {
       </div>
 
       <style>{`
-        .container {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #020617, #1e3a8a);
-          color: white;
-          padding: 20px;
-        }
-
         .layout {
           display: flex;
           gap: 20px;
@@ -92,29 +76,14 @@ export default function TeacherPage() {
         .card {
           flex: 1;
           background: rgba(255,255,255,0.05);
-          padding: 20px;
-          border-radius: 16px;
-        }
-
-        .insight {
-          margin-top: 20px;
-          background: rgba(34,197,94,0.1);
-          padding: 10px;
-          border-radius: 10px;
-        }
-
-        .doubt {
-          margin-top: 10px;
-          padding: 10px;
-          background: rgba(255,255,255,0.05);
-          border-radius: 10px;
+          padding: 15px;
+          border-radius: 12px;
         }
 
         input {
           width: 100%;
           padding: 8px;
-          border-radius: 6px;
-          border: none;
+          margin-top: 5px;
         }
       `}</style>
     </div>

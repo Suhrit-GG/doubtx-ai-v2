@@ -8,31 +8,9 @@ export default function StudentPage() {
   const [doubt, setDoubt] = useState("");
   const [doubts, setDoubts] = useState<any[]>([]);
 
-  const COLORS = ["#3b82f6", "#22c55e", "#f59e0b"];
-
-  // Load doubts
   useEffect(() => {
-    loadDoubts();
-  }, []);
-
-  const loadDoubts = () => {
     const stored = JSON.parse(localStorage.getItem("doubts") || "[]");
     setDoubts(stored);
-  };
-
-  // Cursor glow effect
-  useEffect(() => {
-    const glow = document.getElementById("cursor-glow");
-
-    const move = (e: MouseEvent) => {
-      if (glow) {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-      }
-    };
-
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
   }, []);
 
   const askDoubt = () => {
@@ -51,49 +29,41 @@ export default function StudentPage() {
     setDoubt("");
   };
 
-  // Pie chart data
   const subjects = ["Math", "Science", "English"];
   const data = subjects.map((s) => ({
     name: s,
     value: doubts.filter((d) => d.subject === s).length,
   }));
 
+  const COLORS = ["#3b82f6", "#22c55e", "#f59e0b"];
+
   return (
     <div className="container">
-      {/* Cursor Glow */}
-      <div id="cursor-glow"></div>
-
-      <h1 className="title">🎓 DoubtX AI</h1>
+      <h1>🎓 Student Dashboard</h1>
 
       <div className="layout">
         {/* LEFT */}
         <div className="left">
           <div className="card">
-            <h2>📘 Ask Doubt</h2>
+            <h2>Ask Doubt</h2>
 
-            <select
-              className="input"
-              onChange={(e) => setSubject(e.target.value)}
-            >
+            <select onChange={(e) => setSubject(e.target.value)}>
               <option>Math</option>
               <option>Science</option>
               <option>English</option>
             </select>
 
             <textarea
-              className="input"
-              placeholder="Type your doubt..."
+              placeholder="Enter doubt..."
               value={doubt}
               onChange={(e) => setDoubt(e.target.value)}
             />
 
-            <button className="btn" onClick={askDoubt}>
-              Submit 🚀
-            </button>
+            <button onClick={askDoubt}>Submit</button>
           </div>
 
           <div className="card">
-            <h2>📊 Your Doubts</h2>
+            <h2>📊 Doubts</h2>
 
             <PieChart width={250} height={250}>
               <Pie data={data} dataKey="value" outerRadius={80}>
@@ -106,14 +76,14 @@ export default function StudentPage() {
           </div>
 
           <div className="card">
-            <h2>📩 Teacher Replies</h2>
+            <h2>Teacher Replies</h2>
 
             {doubts.map((d) => (
-              <div key={d.id} className="reply">
-                <b>{d.subject}:</b> {d.question}
+              <div key={d.id}>
+                <b>{d.subject}</b>: {d.question}
                 <br />
-                <span className="teacherText">
-                  {d.reply || "Waiting for teacher..."}
+                <span style={{ color: "lightgreen" }}>
+                  {d.reply || "Waiting..."}
                 </span>
               </div>
             ))}
@@ -132,30 +102,9 @@ export default function StudentPage() {
       </div>
 
       <style>{`
-        .container {
-          min-height: 100vh;
-          background: radial-gradient(circle at top, #1e3a8a, #020617);
-          color: white;
-          padding: 20px;
-          position: relative;
-        }
-
-        #cursor-glow {
-          position: fixed;
-          width: 200px;
-          height: 200px;
-          background: radial-gradient(circle, rgba(59,130,246,0.4), transparent);
-          pointer-events: none;
-          transform: translate(-50%, -50%);
-          filter: blur(40px);
-          z-index: 1;
-        }
-
         .layout {
           display: flex;
           gap: 20px;
-          position: relative;
-          z-index: 2;
         }
 
         .left {
@@ -168,46 +117,28 @@ export default function StudentPage() {
         .right {
           flex: 1;
           height: 80vh;
-          border-radius: 16px;
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 0 50px rgba(0,0,0,0.6);
         }
 
         .card {
-          background: rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.05);
           padding: 15px;
-          border-radius: 16px;
-          backdrop-filter: blur(10px);
-          transition: 0.3s;
+          border-radius: 12px;
         }
 
-        .card:hover {
-          transform: scale(1.02);
-        }
-
-        .input {
+        textarea, select {
           width: 100%;
-          padding: 10px;
-          margin: 8px 0;
-          border-radius: 10px;
-          border: none;
+          margin: 5px 0;
+          padding: 8px;
         }
 
-        .btn {
-          padding: 10px;
-          background: linear-gradient(45deg, #3b82f6, #06b6d4);
+        button {
+          padding: 8px;
+          background: #3b82f6;
           border: none;
-          border-radius: 10px;
+          border-radius: 8px;
           color: white;
-          cursor: pointer;
-        }
-
-        .reply {
-          margin-bottom: 10px;
-        }
-
-        .teacherText {
-          color: #22c55e;
         }
       `}</style>
     </div>

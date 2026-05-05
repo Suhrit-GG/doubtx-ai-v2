@@ -1,11 +1,11 @@
-/* ===== RESET ===== */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===== BODY ===== */
+/* BODY */
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #020617, #1e3a8a);
@@ -13,31 +13,19 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SMOOTH SCROLL ===== */
+/* SCROLL */
 html {
   scroll-behavior: smooth;
 }
 
-/* ===== SELECTION COLOR ===== */
-::selection {
-  background: #3b82f6;
-  color: white;
-}
-
-/* ===== SCROLLBAR (PREMIUM TOUCH) ===== */
+/* SCROLLBAR */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: #020617;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #3b82f6;
   border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
 }

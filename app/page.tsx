@@ -29,9 +29,9 @@ export default function HomePage() {
         <div className="icon">⚗️</div>
       </div>
 
-      <h1>DoubtX AI Portal</h1>
+      <h1 className="title">DoubtX AI Portal</h1>
 
-      <div className="card">
+      <div className="card glass">
         <input placeholder="User ID" onChange={(e) => setId(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
         <button onClick={login}>Login</button>
@@ -39,37 +39,41 @@ export default function HomePage() {
 
       <style>{`
         .container {
+          height: 100vh;
           display: flex;
           flex-direction: column;
-          align-items: center;
           justify-content: center;
-          height: 100vh;
+          align-items: center;
           position: relative;
           z-index: 1;
         }
 
+        .title {
+          font-size: 42px;
+          margin-bottom: 30px;
+          text-shadow: 0 0 20px rgba(59,130,246,0.6);
+        }
+
         .card {
-          background: rgba(255,255,255,0.08);
-          padding: 20px;
-          border-radius: 12px;
+          padding: 30px;
+          border-radius: 16px;
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          width: 250px;
-          backdrop-filter: blur(8px);
+          gap: 12px;
+          width: 280px;
         }
 
         input {
-          padding: 10px;
-          border-radius: 8px;
+          padding: 12px;
+          border-radius: 10px;
           border: none;
         }
 
         button {
-          padding: 10px;
-          background: #3b82f6;
+          padding: 12px;
+          border-radius: 10px;
           border: none;
-          border-radius: 8px;
+          background: #3b82f6;
           color: white;
           cursor: pointer;
         }

@@ -39,6 +39,15 @@ export default function StudentPage() {
 
   return (
     <div className="container">
+      {/* FLOATING ICONS */}
+      <div className="floating-icons">
+        <div className="icon">📐</div>
+        <div className="icon">🧪</div>
+        <div className="icon">📏</div>
+        <div className="icon">🧮</div>
+        <div className="icon">⚗️</div>
+      </div>
+
       <h1>🎓 Student Dashboard</h1>
 
       <div className="layout">

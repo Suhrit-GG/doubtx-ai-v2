@@ -20,6 +20,15 @@ export default function HomePage() {
 
   return (
     <div className="container">
+      {/* FLOATING ICONS */}
+      <div className="floating-icons">
+        <div className="icon">📐</div>
+        <div className="icon">🧪</div>
+        <div className="icon">📏</div>
+        <div className="icon">🧮</div>
+        <div className="icon">⚗️</div>
+      </div>
+
       <h1>DoubtX AI Portal</h1>
 
       <div className="card">

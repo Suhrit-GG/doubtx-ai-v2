@@ -11,6 +11,24 @@ body {
   background: linear-gradient(135deg, #020617, #1e3a8a);
   color: white;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== BACKGROUND PATTERN (SVG ICONS) ===== */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    url("https://www.svgrepo.com/show/353822/test-tube.svg"),
+    url("https://www.svgrepo.com/show/353824/protractor.svg"),
+    url("https://www.svgrepo.com/show/353821/ruler.svg");
+  background-repeat: repeat;
+  background-size: 120px;
+  opacity: 0.05; /* VERY IMPORTANT (keeps it subtle) */
+  filter: grayscale(100%) brightness(2);
+  z-index: 0;
 }
 
 /* SCROLL */

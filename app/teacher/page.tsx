@@ -68,6 +68,12 @@ export default function TeacherPage() {
       </div>
 
       <style>{`
+        .container {
+          position: relative;
+          z-index: 1;
+          padding: 20px;
+        }
+
         .layout {
           display: flex;
           gap: 20px;
@@ -75,9 +81,10 @@ export default function TeacherPage() {
 
         .card {
           flex: 1;
-          background: rgba(255,255,255,0.05);
+          background: rgba(255,255,255,0.08);
           padding: 15px;
           border-radius: 12px;
+          backdrop-filter: blur(8px);
         }
 
         input {

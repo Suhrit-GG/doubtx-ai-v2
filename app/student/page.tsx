@@ -42,7 +42,6 @@ export default function StudentPage() {
       <h1>🎓 Student Dashboard</h1>
 
       <div className="layout">
-        {/* LEFT */}
         <div className="left">
           <div className="card">
             <h2>Ask Doubt</h2>
@@ -90,7 +89,6 @@ export default function StudentPage() {
           </div>
         </div>
 
-        {/* RIGHT */}
         <div className="right">
           <iframe
             src="https://www.chatbase.co/chatbot-iframe/ldbVwvwwC0Ekqiaw04uSB"
@@ -102,6 +100,12 @@ export default function StudentPage() {
       </div>
 
       <style>{`
+        .container {
+          position: relative;
+          z-index: 1;
+          padding: 20px;
+        }
+
         .layout {
           display: flex;
           gap: 20px;
@@ -122,9 +126,10 @@ export default function StudentPage() {
         }
 
         .card {
-          background: rgba(255,255,255,0.05);
+          background: rgba(255,255,255,0.08);
           padding: 15px;
           border-radius: 12px;
+          backdrop-filter: blur(8px);
         }
 
         textarea, select {

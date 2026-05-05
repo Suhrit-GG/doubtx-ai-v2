@@ -23,16 +23,8 @@ export default function HomePage() {
       <h1>DoubtX AI Portal</h1>
 
       <div className="card">
-        <input
-          placeholder="User ID"
-          onChange={(e) => setId(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPass(e.target.value)}
-        />
-
+        <input placeholder="User ID" onChange={(e) => setId(e.target.value)} />
+        <input type="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
         <button onClick={login}>Login</button>
       </div>
 
@@ -43,16 +35,19 @@ export default function HomePage() {
           align-items: center;
           justify-content: center;
           height: 100vh;
+          position: relative;
+          z-index: 1;
         }
 
         .card {
-          background: rgba(255,255,255,0.05);
+          background: rgba(255,255,255,0.08);
           padding: 20px;
           border-radius: 12px;
           display: flex;
           flex-direction: column;
           gap: 10px;
           width: 250px;
+          backdrop-filter: blur(8px);
         }
 
         input {
